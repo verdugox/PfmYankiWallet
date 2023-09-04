@@ -76,26 +76,28 @@ public class YankiService
         return yankiRepository.findByIdentityDni(identityDni);
     }
 
-    @CircuitBreaker(name = "userCircuit", fallbackMethod = "fallbackFindByIdentityDni")
-    @TimeLimiter(name = "userTimeLimiter")
+    @CircuitBreaker(name = "yankiCircuit", fallbackMethod = "fallbackFindByIdentityDni")
+    @TimeLimiter(name = "yankiTimeLimiter")
     public Mono<Yanki> create(Yanki yanki){
         log.debug("create executed {}",yanki);
+        yanki.setDateRegister(LocalDate.now());
         return yankiRepository.save(yanki);
     }
 
-    @CircuitBreaker(name = "userCircuit", fallbackMethod = "fallbackUpdateUser")
-    @TimeLimiter(name = "userTimeLimiter")
+    @CircuitBreaker(name = "yankiCircuit", fallbackMethod = "fallbackUpdateYanki")
+    @TimeLimiter(name = "yankiTimeLimiter")
     public Mono<Yanki> update(String yankiId, Yanki yanki){
         log.debug("update executed {}:{}", yankiId, yanki);
         return yankiRepository.findById(yankiId)
                 .flatMap(dbYanki -> {
+                    yanki.setDateRegister(dbYanki.getDateRegister());
                     yankiMapper.update(dbYanki, yanki);
                     return yankiRepository.save(dbYanki);
                 });
     }
 
-    @CircuitBreaker(name = "userCircuit", fallbackMethod = "fallbackDeleteUser")
-    @TimeLimiter(name = "userTimeLimiter")
+    @CircuitBreaker(name = "yankiCircuit", fallbackMethod = "fallbackDeleteYanki")
+    @TimeLimiter(name = "yankiTimeLimiter")
     public Mono<Yanki>delete(String yankiId){
         log.debug("delete executed {}",yankiId);
         return yankiRepository.findById(yankiId)

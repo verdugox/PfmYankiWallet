@@ -15,12 +15,11 @@
 	<description>Microservicio dedicado a realizar el monedero yanki</description>
 	<properties>
 		<sonar.exclusions>
-			**/entity/*.java,
-			**/listener/*.java,
-			**/repository/*.java,
-			**/service/web/mapper/*.java,
-			**/service/web/model/*.java,
-			**/service/web/*.java,
+			**/application/*.java,
+			**/config/*.java,
+			**/domain/*.java,
+			**/presentation/mapper/*.java,
+			**/presentation/model/*.java,
 			pom.xml,
 			**/*YankiApplication.java
 		</sonar.exclusions>
@@ -243,6 +242,15 @@
 		<dependency>
 			<groupId>io.prometheus</groupId>
 			<artifactId>simpleclient_httpserver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 
